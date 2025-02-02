@@ -1,0 +1,3 @@
+# Ignore R data and history files in any directory
+*.RData
+*.RHistory
