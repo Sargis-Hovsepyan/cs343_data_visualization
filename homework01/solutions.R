@@ -18,7 +18,7 @@ theme_set(theme_minimal())
 
 # Part 1: Data Cleaning and Exploration
 
-df <- read_csv("crime_data.csv")
+df <- read_csv("./data/crime_data.csv")
 head(df, n=5)
 
 # Cleaning data from  > 50% missing value columns
