@@ -2,7 +2,7 @@
 # Data Visualization Assignment 02
 # 
 # Name:   Sargis Hovsepyan
-# Date:   16/02/2025
+# Date:   20/02/2025
 # Course: CS 343 Data Visualization
 # ========================================================
 
@@ -46,6 +46,7 @@ ggplot(data, aes(x = normal, y = logistic)) +
 
 lc_df <- read.csv('./data/lung_cancer_prediction_dataset.csv')
 ap_df <- read.csv('./data/global_air_pollution_dataset.csv')
+
 
 # 2. Use the gpplot2 package for this graph.
 
@@ -91,4 +92,46 @@ ggplot(df_merged, aes(x = Avg_PM2.5, y = Annual_Deaths, label = Country)) +
 
 # 3. Use the ggplot2 package for this graph.
 
-# TODO: Continue
+lc_df <- na.omit(lc_df)
+
+# Ensure correct data types
+lc_df$Cancer_Stage <- factor(lc_df$Cancer_Stage, levels = c("Stage 1", "Stage 2", "Stage 3", "Stage 4"))
+lc_df$Gender <- as.factor(lc_df$Gender)
+
+ggplot(lc_df, aes(x = Years_of_Smoking, y = Cancer_Stage, color = Gender, shape = Gender)) +
+  geom_jitter(alpha = 0.6, width = 0.4) +
+  scale_color_manual(values = c("Male" = "#5469f1", "Female" = "#d554f1")) +
+  facet_wrap(~Gender) +
+  labs(title = "Lung Cancer Stage vs. Smoking Years",
+       subtitle = "Comparison by Gender",
+       x = "Years of Smoking",
+       y = "Cancer Stage",
+       color = "Gender") +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14, face = "bold"),
+    strip.text = element_text(size = 14, face = "bold")
+  )
+
+
+# 4. Use the ggplot2 package for this graph.
+
+ap_df_filtered <- ap_df %>%
+  filter(Country %in% c("Brazil", "Germany", "Italy", "India", "Russian Federation", "United States of America"))
+
+ggplot(ap_df_filtered, aes(x = PM2.5_AQI_Value, fill = Country)) +
+  geom_histogram(bins = 50, color = "black", alpha = 0.7) +
+  scale_fill_viridis_d(option = "plasma") +
+  facet_wrap(~ Country, scales = "free_y") +
+  labs(title = "PM2.5 AQI Distribution Across Selected Countries",
+       subtitle = "Comparison of Air Pollution Levels",
+       x = "PM2.5 AQI Value",
+       y = "Frequency",
+       fill = "Country") +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14, face = "bold"),
+    strip.text = element_text(size = 14, face = "bold"),
+    legend.position = "bottom",
+    plot.subtitle = element_text(size = 14, face = "italic")
+  )
